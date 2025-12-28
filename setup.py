@@ -2,7 +2,14 @@
 pyscf-vorticity: Geometric correlation analysis for quantum chemistry
 """
 
+import os
 from setuptools import setup, find_packages
+
+# README があれば読む
+long_description = ""
+if os.path.exists("README.md"):
+    with open("README.md", "r", encoding="utf-8") as f:
+        long_description = f.read()
 
 setup(
     name="pyscf-vorticity",
@@ -10,7 +17,7 @@ setup(
     author="Masamichi Iizumi",
     author_email="m.iizumi@miosync.email",
     description="Λ³-DFT: Vorticity-based exchange-correlation analysis",
-    long_description=open("README.md").read() if os.path.exists("README.md") else "",
+    long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/miosync-masa/pyscf-vorticity",
     packages=find_packages(),
