@@ -52,20 +52,6 @@ The package integrates seamlessly with PySCF [@sun2018pyscf], enabling
 immediate application to any system accessible via full configuration 
 interaction (FCI) or multi-reference methods.
 
-![H₂ dissociation U-shaped curve](fig1_h2_ushaped.png)
-
-*Figure 1: The vorticity stiffness α = |E_corr|/V exhibits a U-shaped 
-curve during H₂ bond dissociation, demonstrating the ambiguity of 
-single-variable diagnosis. The minimum at R ≈ 1.5 Å marks optimal 
-correlation efficiency.*
-
-![Correlation dimension scaling](fig2_gamma_scaling.png)
-
-*Figure 2: (a) System-size scaling of exchange-correlation energy at 
-various U/t values. (b) The extracted correlation dimension γ shows 
-linear dependence on interaction strength, ranging from γ ≈ 2 (metallic) 
-to γ → 0 (Mott insulator).*
-
 # Theoretical Background
 
 The exchange-correlation energy scales with a vorticity measure $V$ computed 
@@ -85,12 +71,28 @@ where $\gamma$ is the effective correlation dimension. This scaling allows
 extraction of $\gamma$ from calculations on small model systems, providing 
 guidance for larger-scale DFT calculations.
 
+![Correlation dimension scaling](fig2_gamma_scaling.png)
+
+*Figure 1: (a) System-size scaling of $E_{xc}/N$ at various interaction 
+strengths U/t. (b) The extracted correlation dimension $\gamma$ shows 
+linear dependence on U/t (R² = 0.977), ranging from $\gamma \approx 2$ 
+(metallic) to $\gamma \to 0$ (Mott insulator).*
+
 # Two-Variable Diagnosis
 
 A key challenge in single-point functional selection is that the vorticity 
 stiffness $\alpha$ exhibits a **U-shaped curve** during bond dissociation, 
-making it ambiguous on its own. We address this by introducing a two-variable 
-diagnostic:
+making it ambiguous on its own.
+
+![H₂ dissociation U-shaped curve](fig1_h2_ushaped.png)
+
+*Figure 2: The vorticity stiffness $\alpha = |E_{corr}|/V$ exhibits a 
+U-shaped curve during H₂ bond dissociation. The minimum at $R \approx 1.5$ Å 
+marks optimal correlation efficiency, while both equilibrium ($R = 0.74$ Å) 
+and dissociation ($R > 3$ Å) show similar $\alpha$ despite fundamentally 
+different correlation regimes.*
+
+We address this ambiguity by introducing a two-variable diagnostic:
 
 | Variable | Physical Meaning | Behavior |
 |----------|------------------|----------|
@@ -128,10 +130,9 @@ rdm1, rdm2 = cisolver.make_rdm12(fcivec, mol.nao, (1, 1))
 V, k = compute_vorticity(rdm2, mol.nao)
 ```
 
-A functional recommender tool is included for practical use:
+A functional recommender tool is included for practical diagnosis:
 ```python
-# examples/04_functional_recommender.py
-from pyscf_vorticity.recommender import diagnose_system
+from examples.functional_recommender import diagnose_system
 diagnose_system("H2", "H 0 0 0; H 0 0 0.74")
 ```
 
