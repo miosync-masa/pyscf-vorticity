@@ -176,6 +176,9 @@ E_dens = abs(E_corr_eV) / n_elec  # eV per electron
 **Key insight:** H₂ at equilibrium and dissociation have similar α, 
 but E_dens clearly distinguishes them!
 
+> **Disclaimer:** This diagnostic is heuristic but physically motivated, 
+> intended to guide functional choice rather than guarantee optimality.
+
 ### Physical Interpretation
 
 > "While α exhibits a U-shaped curve characteristic of the crossover 
