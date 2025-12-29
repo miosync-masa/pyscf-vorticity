@@ -1,5 +1,10 @@
 # pyscf-vorticity
 
+[![CI](https://github.com/miosync-masa/pyscf-vorticity/actions/workflows/ci.yml/badge.svg)](https://github.com/miosync-masa/pyscf-vorticity/actions/workflows/ci.yml)
+[![PyPI version](https://badge.fury.io/py/pyscf-vorticity.svg)](https://pypi.org/project/pyscf-vorticity/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18085362.svg)](https://doi.org/10.5281/zenodo.18085362)
+
+
 Geometric correlation analysis for quantum chemistry
 
 ## What it does
