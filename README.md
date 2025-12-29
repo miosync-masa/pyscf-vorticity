@@ -8,6 +8,17 @@
 
 Geometric correlation analysis for quantum chemistry
 
+## Statement of Need
+
+Standard DFT functionals rely on empirical mixing parameters 
+(e.g., 20% exact exchange in B3LYP). However, the optimal mixing 
+depends heavily on the correlation regime—weak correlation (metals) 
+vs. strong correlation (Mott insulators, bond breaking).
+
+**pyscf-vorticity** solves this "parameter selection problem" by 
+computing an effective correlation dimension γ from first-principles 
+2-RDM analysis, providing physics-based guidance for functional selection.
+
 ## What it does
 
 Computes an **effective** correlation dimension γ from first-principles
@@ -34,6 +45,30 @@ alpha = abs(E_fci - mf.e_tot) / V
 
 # → Use γ to guide functional selection
 ```
+---
+
+## Requirements
+
+### Core Dependencies
+- Python >= 3.9
+- NumPy >= 1.20
+- SciPy >= 1.7
+
+### Optional Dependencies
+- **PySCF** >= 2.0 (for quantum chemistry calculations)
+- **JAX** >= 0.4 (for GPU acceleration)
+
+### Backend Selection
+
+The package automatically selects the best available backend:
+
+| Backend | Device | When Used |
+|---------|--------|-----------|
+| JAX | GPU | JAX installed + GPU available |
+| JAX | CPU | JAX installed, no GPU |
+| NumPy | CPU | JAX not installed (fallback) |
+
+GPU acceleration is **optional** but recommended for larger systems.
 
 ---
 
@@ -171,7 +206,7 @@ pip install jax jaxlib
 @article{iizumi2025geometric,
   title={Geometric Origin of Exchange-Correlation in Density Functional Theory},
   author={Iizumi, Masamichi},
-  journal={arXiv preprint},
+  journal={zenodo preprint},
   year={2025}
 }
 ```
