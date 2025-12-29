@@ -187,6 +187,16 @@ Ne (10e): α = 0.004
 The 30× drop from 2e to 4+e systems ("α-cliff") 
 reflects the emergence of many-body correlation structure.
 
+### Isoelectronic Universality
+
+Systems with equal electron count show nearly identical vorticity:
+
+| System | Type | n_e | V | α |
+|--------|------|-----|---|---|
+| Ne | atom | 10 | 55.42 | 0.0035 |
+| HF | molecule | 10 | 54.97 | 0.0038 |
+
+**Difference: < 1%** — confirming γ is fundamentally electronic.
 ---
 
 ## Installation
