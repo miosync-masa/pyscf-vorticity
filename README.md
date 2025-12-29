@@ -123,6 +123,67 @@ system-size dependence.
 | γ > 3 | Weak (metallic) | Fully delocalized |
 
 ---
+---
+
+## HOW IT WORKS: Two-Variable Diagnosis
+
+### The Problem with Single-Variable Diagnosis
+
+The vorticity stiffness α exhibits a **U-shaped curve** during bond 
+dissociation—it decreases, reaches a minimum, then increases again. 
+This makes α alone **ambiguous** for single-point diagnosis:
+```
+H₂ (R=0.74Å): α = 0.062  (equilibrium)
+H₂ (R=1.50Å): α = 0.039  (minimum)
+H₂ (R=3.00Å): α = 0.071  (dissociated) ← Similar to equilibrium!
+```
+
+### The Solution: Two-Axis Phase Diagram
+
+We break this degeneracy using **two diagnostic variables**:
+
+| Variable | Physical Meaning | Behavior |
+|----------|------------------|----------|
+| **α** (Vorticity Stiffness) | Topological complexity of correlation | U-shaped |
+| **\|E_corr\|/N** (Energy Density) | Mean-field (RHF) breakdown | Monotonic ↑ |
+```python
+from pyscf_vorticity import compute_vorticity
+
+# Compute both diagnostics
+V, k = compute_vorticity(rdm2, n_orb)
+alpha = abs(E_corr) / V
+E_dens = abs(E_corr_eV) / n_elec  # eV per electron
+```
+
+### Diagnostic Logic
+```
+              |  E_dens < 0.5  |  E_dens > 1.0  |  E_dens > 2.0
+--------------+----------------+----------------+----------------
+ Any α        |  Weak corr     |  Strong corr   |  Mott/Dissoc
+              |  γ ≈ 2         |  γ ≈ 1         |  γ → 0
+              |  PBE0/B3LYP    |  M06-2X        |  M06-HF (100%)
+```
+
+### Validated Results
+
+| System | α | E_dens (eV/e) | γ | Recommendation |
+|--------|---|---------------|---|----------------|
+| H₂ (equilibrium) | 0.062 | 0.47 | 1.80 | PBE0/B3LYP |
+| H₂ (R=3.0Å) | 0.071 | **2.36** | **0.05** | **M06-HF** |
+| LiH | 0.002 | 0.21 | 3.21 | PBE/TPSSh |
+| He | 0.090 | 0.44 | 1.80 | PBE0/B3LYP |
+
+**Key insight:** H₂ at equilibrium and dissociation have similar α, 
+but E_dens clearly distinguishes them!
+
+### Physical Interpretation
+
+> "While α exhibits a U-shaped curve characteristic of the crossover 
+> from dynamic to static correlation, the correlation energy density 
+> |E_corr|/N serves as a proxy for mean-field breakdown. The combination 
+> allows robust single-point diagnosis of the correlation regime."
+
+---
 
 ## HOW TO: Strong Correlation Systems
 
