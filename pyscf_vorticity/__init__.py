@@ -2,13 +2,12 @@
 pyscf-vorticity: Geometric correlation analysis
 """
 
-#Backend
+# Backend selection
 try:
     import jax
-    import jax.numpy as jnp
     from .vorticity_jax import compute_vorticity
     BACKEND = 'jax'
-    
+
     # GPU check
     try:
         devices = jax.devices('gpu')
@@ -16,9 +15,9 @@ try:
             DEVICE = 'gpu'
         else:
             DEVICE = 'cpu'
-    except:
+    except Exception:
         DEVICE = 'cpu'
-        
+
 except ImportError:
     from .vorticity_numpy import compute_vorticity
     BACKEND = 'numpy'
@@ -27,7 +26,7 @@ except ImportError:
 print(f"pyscf-vorticity: backend={BACKEND}, device={DEVICE}")
 
 # Public API
-from .gamma import extract_gamma
+from .gamma import extract_gamma, compute_alpha  # noqa: E402
 
-__version__ = '0.1.0'
-__all__ = ['compute_vorticity', 'extract_gamma', 'BACKEND', 'DEVICE']
+__version__ = '0.1.2'
+__all__ = ['compute_vorticity', 'extract_gamma', 'compute_alpha', 'BACKEND', 'DEVICE']
